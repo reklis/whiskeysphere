@@ -161,74 +161,17 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
  */
 
 
-.autocompletelist li {
-  -webkit-border-radius: 50px;
-  border: 1px solid black;
-  list-style: none;
-  float: left;
-  padding: 50px;
-}
 
-#main {
-  clear: both;
-}
 
-li.gamesphere {
--webkit-border-radius: 150px;
-border: 1px solid black;
-list-style: none;
-text-align: center;
-vertical-align: middle;
-padding: 100px;
-width: 50px;
-background-image: -webkit-radial-gradient(circle, white, black);
-}
 
-ul.detailnode li.detailnode {
-  border: 1px solid red;
-}
 
-ul.detailnode ul.detailnode li.detailnode {
-  border: 1px solid blue;
-}
 
-ul.detailnode ul.detailnode ul.detailnode li.detailnode {
-  border: 1px solid green;
-}
 
-ul.detailnode li.characters {
-  background-color: #0000ff;
-}
-ul.detailnode li.similar_games {
-  background-color: #ff0000;
-}
-ul.detailnode li.people {
-  background-color: #00ff00;
-}
-ul.detailnode li.genres {
-  background-color: #00ffff;
-}
-ul.detailnode li.first_appearance_characters {
-  background-color: #ffff00;
-}
-ul.detailnode li.developers {
-  background-color: #ffffff;
-}
-ul.detailnode li.publishers {
-  background-color: #ff00ff;
-}
-ul.detailnode li.releases {
-  background-color: #0f0f0f;
-}
-ul.detailnode li.franchises {
-  background-color: #ab0000;
-}
-ul.detailnode li.objects {
-  background-color: #e300e3;
-}
-ul.detailnode li.concepts {
-  background-color: #f0f0f0;
-}
+
+
+
+
+
 
 
 
