@@ -173,7 +173,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
   clear: both;
 }
 
-li.gamesphere {
+/*li.gamesphere {
 -webkit-border-radius: 150px;
 border: 1px solid black;
 list-style: none;
@@ -182,6 +182,10 @@ vertical-align: middle;
 padding: 100px;
 width: 50px;
 background-image: -webkit-radial-gradient(circle, white, black);
+}
+*/
+li.detailnode {
+  /*background-color: rgba(50, 50, 50, 0.3);*/
 }
 
 ul.detailnode li.detailnode {
@@ -231,6 +235,36 @@ ul.detailnode li.concepts {
 }
 
 
+#camera {
+  -webkit-perspective: 800;
+  -webkit-perspective-origin: 50% 200px;
+  padding:10em;
+  margin:10em;
+}
+
+#gamesphere {
+  position: relative;
+  margin: 0 auto;
+  height: 500px;
+  width: 500px;
+  -webkit-transition: -webkit-transform 2s linear;
+  -webkit-transform-style: preserve-3d;
+}
+
+#gamesphere .detailnode {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  padding: 20px;
+  background-color: rgba(50, 50, 50, 0.2);
+  -webkit-transition: -webkit-transform 1s cubic-bezier(0,0,.1,1);
+  -webkit-backface-visibility: visible;
+}
+
+#gamesphere li {
+  display: block;
+  list-style: none;
+}
 
 /**
  * Non-semantic helper classes: please define your styles before this section.

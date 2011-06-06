@@ -23,7 +23,20 @@ window.requestAnimFrame = (function(){
 function render() {
   if (!gamesphere) return;
   
+  var w = window.innerWidth/2;
+  var h = window.innerHeight/2;
+  //$(gamesphere).css({position: 'absolute', left: w, top: h, height: '400px', width: '200px'});
   
+  
+  $(gamesphere).children().each(function(i,e) {
+    if (i != 0) {
+      var rx = 20*i*Math.cos(i*10);
+      var ry = 20*i*Math.sin(i*10);
+      var z = ($(e).attr("data-selected") == "true") ? 400 : 200;
+      $(e).css({ "-webkit-transform": "rotateX("+rx+"deg) rotateY("+ry+"deg) translateZ("+z+"px)", "border":"1px solid black" });
+    }
+  });
+
 }
 
 $(document).ready(function() {
@@ -81,25 +94,34 @@ function showGame(gameid) {
       root.html("");
       makeDetailNodeTree('root', d.results, root);
       gamesphere = root;
-      window.log( $(gamesphere).html() );
+      //window.log( $(gamesphere).html() );
+      
+        $(gamesphere).children().each(function(i,e) {
+          $(e).click(function(){
+            $(this).attr("data-selected","true");
+            window.log($(this).html());
+            $(this).siblings().attr("data-selected", "false");
+          });
+        });
   });
 }
 
 function makeDetailNodeTree(key, detail_item, parent_node) {
   if (detail_item.api_detail_url) {
     $("<li />", { 
-          class: 'detailnode ' + key, 
+          "class": 'detailnode ' + key, 
           "data-detailurl": detail_item.api_detail_url,
-          html: detail_item.name
+          "html": detail_item.name
     }).appendTo(parent_node);
     
     $.map(detail_item, function(v,k) { 
       if ($.isArray(v) && (v.length != 0)) {
-        var ul = $("<ul />", { class: 'detailnode' });
+        //var ul = $("<ul />", { 'class': 'detailnode' });
         $.each(v, function(i,e) {
-          makeDetailNodeTree(k, e, $(ul));
+          //makeDetailNodeTree(k, e, $(ul));
+          makeDetailNodeTree(k, e, parent_node);
         });
-        $(ul).appendTo(parent_node);
+        //$(ul).appendTo(parent_node);
       } else if ($.isPlainObject(v)) {
         makeDetailNodeTree(k, v, parent_node);
       }
