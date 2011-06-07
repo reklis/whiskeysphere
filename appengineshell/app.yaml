@@ -1,0 +1,24 @@
+application: whiskeysphere
+version: 1
+runtime: python
+api_version: 1
+
+builtins:
+- appstats: on
+
+handlers:
+- url: /index.html
+  static_files: static/index.html
+  upload: static/index.html
+  
+- url: /js
+  static_dir: static/js
+
+- url: /css
+  static_dir: static/css
+
+- url: /img
+  static_dir: static/img
+  
+- url: .*
+  script: main.py
