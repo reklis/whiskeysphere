@@ -160,6 +160,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
  * Author: 
  */
 
+body {
+  background-color: black;
+}
 
 .autocompletelist li {
   -webkit-border-radius: 50px;
@@ -234,7 +237,6 @@ ul.detailnode li.concepts {
   background-color: #f0f0f0;
 }
 
-
 #camera {
   -webkit-perspective: 800;
   -webkit-perspective-origin: 50% 200px;
@@ -264,6 +266,25 @@ ul.detailnode li.concepts {
 #gamesphere li {
   display: block;
   list-style: none;
+}
+
+#hypertree-container {
+  padding: 10em;
+  background-color: black;
+}
+
+#hypertree {
+  width: 500px;
+  height: 500px;
+}
+
+#hypertree-selected-node-details
+{
+  float: right;
+  margin-top: -500px;
+  width: 200px;
+  background-color: rgba(50, 50, 50, 0.2);
+  border: 1px solid black;
 }
 
 /**

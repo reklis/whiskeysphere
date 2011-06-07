@@ -2,13 +2,22 @@ function whiskey() {
   this._apiroot = "http://api.giantbomb.com";
 }
 
+whiskey.prototype.jsonResource = function(r) {
+  return r
+    + "?format=jsonp&api_key="
+    + this._apikey;
+}
+
 whiskey.prototype.resource = function(r, q) {
-  return this._apiroot 
+  var url = this._apiroot 
     + "/"
-    + r
-    + "/?format=jsonp&api_key="
-    + this._apikey
-    + q;
+    + this.jsonResource(r + "/");
+    
+  if (undefined != q) {
+    url += q;
+  }
+  
+  return url;
 }
 
 whiskey.prototype.apikey = function(v) {
@@ -19,13 +28,15 @@ whiskey.prototype.apikey = function(v) {
 }
 
 whiskey.prototype.search = function(querystring, callback) {
-    var u = this.resource("search", "&query=" + encodeURI(querystring) 
-    + "&resources=game&limit=5&field_list=id,name&json_callback=?");
-    //window.log(u);
-    $.getJSON(u, callback);
+  var filter = "&query=" + encodeURI(querystring) + "&resources=game&limit=5&field_list=id,name";
+  this.fetchResource(this.resource("search", filter), callback);
 }
 
 whiskey.prototype.game = function(gameid, callback) {
-  var u = this.resource("game/"+gameid, "&json_callback=?");
-  $.getJSON(u, callback);
+  this.fetchResource(this.resource("game/"+gameid, ""), callback);
+}
+
+whiskey.prototype.fetchResource = function(resource_url, callback) {
+  window.log("Fetching " + resource_url + "...");
+  $.getJSON(resource_url + "&json_callback=?", callback);
 }
