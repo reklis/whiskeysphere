@@ -2,7 +2,8 @@ var datafeed = null;
 var treeroot = null;
 var ht = null;
 
-$(document).ready(function() {
+
+function init() {
   
   datafeed = new whiskey();
   datafeed.apikey("42a02401c2f625764249aa0d50361c26c676f81c");
@@ -42,7 +43,7 @@ $(document).ready(function() {
     
   })
   
-});
+}
 
 
 function showGame(gameid) {

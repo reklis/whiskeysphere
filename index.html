@@ -32,7 +32,7 @@
   <script src="js/libs/respond.min.js"></script>
 </head>
 
-<body>
+<body onload="init()">
 
   <div id="container">
     <header>
@@ -55,20 +55,16 @@
 
 
   <!-- JavaScript at the bottom for fast page loading -->
-  <script src="js/libs/jit.min.js" type="text/javascript" charset="utf-8"></script>
-
+  
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.1.min.js">\x3C/script>')</script>
-
+  
   <!-- scripts concatenated and minified via ant build script-->
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
   <!-- end scripts-->
   
-  <script src="js/libs/PhiloGL.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/mylibs/whiskey.js" type="text/javascript" charset="utf-8"></script>
-	
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>
     var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview'],['_trackPageLoadTime']];
