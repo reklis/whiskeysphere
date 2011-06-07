@@ -253,9 +253,9 @@ ul.detailnode li.concepts {
 
 #gamesphere .detailnode {
   position: absolute;
-  height: 30px;
-  width: 30px;
-  padding: 20px;
+  height: 50px;
+  width: 50px;
+  padding: 50px;
   background-color: rgba(50, 50, 50, 0.2);
   -webkit-transition: -webkit-transform 1s cubic-bezier(0,0,.1,1);
   -webkit-backface-visibility: visible;

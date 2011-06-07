@@ -20,23 +20,56 @@ window.requestAnimFrame = (function(){
 })();
 
 
+var deg = 57.29577951308232;
+var ticks = Date.now();
 function render() {
   if (!gamesphere) return;
   
-  var w = window.innerWidth/2;
-  var h = window.innerHeight/2;
-  //$(gamesphere).css({position: 'absolute', left: w, top: h, height: '400px', width: '200px'});
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  $("#camera").css({"-webkit-transform": "translateX("+w/2+"px)" + " traslateY("+h/2+"px)"});
+
+  var panelSize = 60;
+  var numberOfPanels = $(gamesphere).children().length-1;
   
-  
+  var N = numberOfPanels;
+  var inc = Math.PI * (3 - Math.sqrt(5));
+  var off = 2 / N;
   $(gamesphere).children().each(function(i,e) {
     if (i != 0) {
-      var rx = 20*i*Math.cos(i*10);
-      var ry = 20*i*Math.sin(i*10);
-      var z = ($(e).attr("data-selected") == "true") ? 400 : 200;
-      $(e).css({ "-webkit-transform": "rotateX("+rx+"deg) rotateY("+ry+"deg) translateZ("+z+"px)", "border":"1px solid black" });
+        var y = i * off - 1 + (off / 2);
+        var r = Math.sqrt(1 - y*y);
+        var phi = i * inc;
+        
+        var tx = Math.cos(phi)*r;
+        var ty = y;
+        var tz = Math.sin(phi)*r;
+        
+        var rx = Math.cos(phi)*deg*90;
+        var ry = ty*deg*90;
+        var rz = Math.sin(phi)*deg*90;
+        
+        
+      
+      // var rx = i*360/numberOfPanels;
+      // var ry = 
+      // var tz = Math.round(
+      //     (panelSize/2) / Math.tan(Math.PI/numberOfPanels)
+      //   );
+
+      if ($(e).attr("data-selected") == "true") {
+        tz *= 2;
+      }
+      $(e).css({
+        "-webkit-transform": "translateX("+tx*200+"px) translateY("+ty*200+"px) translateZ("+tz*100+"px) rotateX("+rx+"deg) rotateY("+ry+"deg) rotateZ("+rz+"deg) ",
+        "border":"1px solid black"
+        });
+    } else {
+      $(e).css({"background-color":"rgba(255,255,0,.7)"});
     }
   });
-
+  
+  $("#gamesphere").css({"-webkit-transform":"rotateY("+ (((Date.now()-ticks)/1000)*deg) +"deg) "});
 }
 
 $(document).ready(function() {
