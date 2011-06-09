@@ -169,122 +169,68 @@ body {
   border: 1px solid black;
   list-style: none;
   float: left;
-  padding: 50px;
+  background-color: rgba(196, 196, 196, .5);
+  border: 1px solid white;
+  padding: 1em;
+  font-family: Rockwell, Georgia, "Times New Roman", Times, serif;
+  font-size: 24pt;
+  color: #0D4383;
+  text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px, rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+}
+
+#searcharea {
+  position: absolute;
+  width: 100%;
+  top: 20%;
+  text-align: center;
+}
+
+#txtSearchGame {
+  width: 50%;
+  font-size: 36pt;
+  text-align: center;
+}
+
+#progress {
+  position: absolute;
+  height: 80%;
+  width: 100%;
+  z-index: -1;
 }
 
 #main {
   clear: both;
 }
 
-/*li.gamesphere {
--webkit-border-radius: 150px;
-border: 1px solid black;
-list-style: none;
-text-align: center;
-vertical-align: middle;
-padding: 100px;
-width: 50px;
-background-image: -webkit-radial-gradient(circle, white, black);
-}
-*/
-li.detailnode {
-  /*background-color: rgba(50, 50, 50, 0.3);*/
-}
-
-ul.detailnode li.detailnode {
-  border: 1px solid red;
-}
-
-ul.detailnode ul.detailnode li.detailnode {
-  border: 1px solid blue;
-}
-
-ul.detailnode ul.detailnode ul.detailnode li.detailnode {
-  border: 1px solid green;
-}
-
-ul.detailnode li.characters {
-  background-color: #0000ff;
-}
-ul.detailnode li.similar_games {
-  background-color: #ff0000;
-}
-ul.detailnode li.people {
-  background-color: #00ff00;
-}
-ul.detailnode li.genres {
-  background-color: #00ffff;
-}
-ul.detailnode li.first_appearance_characters {
-  background-color: #ffff00;
-}
-ul.detailnode li.developers {
-  background-color: #ffffff;
-}
-ul.detailnode li.publishers {
-  background-color: #ff00ff;
-}
-ul.detailnode li.releases {
-  background-color: #0f0f0f;
-}
-ul.detailnode li.franchises {
-  background-color: #ab0000;
-}
-ul.detailnode li.objects {
-  background-color: #e300e3;
-}
-ul.detailnode li.concepts {
-  background-color: #f0f0f0;
-}
-
-#camera {
-  -webkit-perspective: 800;
-  -webkit-perspective-origin: 50% 200px;
-  padding:10em;
-  margin:10em;
-}
-
-#gamesphere {
-  position: relative;
-  margin: 0 auto;
-  height: 500px;
-  width: 500px;
-  -webkit-transition: -webkit-transform 2s linear;
-  -webkit-transform-style: preserve-3d;
-}
-
-#gamesphere .detailnode {
-  position: absolute;
-  height: 50px;
-  width: 50px;
-  padding: 50px;
-  background-color: rgba(50, 50, 50, 0.2);
-  -webkit-transition: -webkit-transform 1s cubic-bezier(0,0,.1,1);
-  -webkit-backface-visibility: visible;
-}
-
-#gamesphere li {
-  display: block;
-  list-style: none;
-}
-
 #hypertree-container {
-  padding: 10em;
   background-color: black;
+  display: none;
 }
 
 #hypertree {
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
 }
 
 #hypertree-selected-node-details
 {
   float: right;
-  margin-top: -500px;
-  width: 200px;
-  background-color: rgba(50, 50, 50, 0.2);
+  padding: 1em;
+  margin-top: -600px;
+  width: 300px;
+  background-color: rgba(50, 50, 50, 0.5);
   border: 1px solid black;
+  height: 600px;
+  overflow-x: visible;
+  overflow-y: auto;
+}
+
+footer {
+  position: absolute;
+  top: 90%;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
 }
 
 /**

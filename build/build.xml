@@ -206,6 +206,23 @@
 		<echo>JSHint Successful</echo>
 	</target>    
        
+       
+    <target name="appengine"
+            depends="-clean,
+                     -build.production">
+        
+        <echo message="Initializing files for app engine"/>
+        
+        <copy todir="./${dir.appengine}">
+          <fileset dir="${dir.appengineshell}"/>
+        </copy>
+        <copy todir="./${dir.appengine}/static">
+            <fileset dir="${dir.publish}/"/>
+        </copy>
+        
+        <echo message="${dir.publish} files are now AppEngine deployable: ${dir.appengine}."/>
+        <echo message="Just run dev_appserver.py ${dir.appengine}" />
+    </target>
     
     
     <!--
@@ -376,6 +393,7 @@
         <echo message="Cleaning up previous build directory..."/>
         <delete dir="./${dir.intermediate}/"/>
         <delete dir="./${dir.publish}/"/>
+        <delete dir="./${dir.appengine}"/>
     </target>
     
     
@@ -431,7 +449,7 @@
             </fileset>
         </copy>
         
-        <echo message="A copy of all non-dev files are now in: ./${dir.publish}."/>
+        <echo message="A copy of all non-dev files are now in: ${dir.publish}."/>
     </target>
     
     <!-- JAVASCRIPT -->
@@ -441,7 +459,7 @@
         <concat destfile="./${dir.intermediate}/${dir.js}/scripts-concat.js" overwrite="no">
             <fileset dir="./${dir.intermediate}/">
                 <include name="${dir.js.main}/*.min.js"/>
-            </fileset>      
+            </fileset>
         </concat>
     </target>
     
@@ -452,7 +470,7 @@
         <concat destfile="./${dir.intermediate}/${dir.js}/libs-concat.js" overwrite="no">
             <fileset dir="./${dir.intermediate}/${dir.js.mylibs}/">
                 <include name="**/*.min.js"/>
-            </fileset>      
+            </fileset>
         </concat>
     </target>
     

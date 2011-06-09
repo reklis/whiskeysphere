@@ -9,6 +9,12 @@ function init() {
   datafeed.apikey("42a02401c2f625764249aa0d50361c26c676f81c");
   
   $("#txtSearchGame").keyup(function() {
+    if ($("#searcharea").css("top") != "0px") {
+      $("#searcharea").animate({
+        "top":"0px"
+      });
+    }
+      
       var q = $("#txtSearchGame").val();
       
       datafeed.search(q, function(d) {
@@ -36,6 +42,7 @@ function init() {
           var gameid = $(this).attr("data-gameid");
           window.log(gameid);
           
+          $("#searcharea").fadeOut();
           showGame(gameid);
         });
         
@@ -49,15 +56,15 @@ function init() {
 function showGame(gameid) {
   var gameName = $('.autocompletelist li[data-gameid='+gameid+']').text();
   $("#txtSearchGame").val(gameName);
-  $('.autocompletelist').remove();
+  //$('.autocompletelist').remove();
+  $("#progress").activity();
   
   datafeed.game(gameid, function(d) {
       //window.log(d);
       treeroot = makeDetailNodeTree(d.results);
       //window.log(treeroot);
       
-      var infovis = $("#hypertree");
-      var w = infovis.offsetWidth - 50, h = infovis.offsetHeight - 50;
+      var w = window.innerWidth * .6, h = window.innerHeight * .6;
       ht = new $jit.Hypertree({
         injectInto: 'hypertree',
          width: w,
@@ -131,6 +138,10 @@ function showGame(gameid) {
     });
     
     ht.loadJSON(treeroot);
+    
+    $("#progress").activity(false);
+    $("#hypertree-container").fadeIn();
+    
     ht.refresh();
     ht.controller.onAfterCompute();
   });
@@ -179,7 +190,12 @@ function makeDetailNodeTree(detail_item, parent_node) {
 }
 
 function loadChildren(selected_node) {
+  $("#hypertree-container").fadeOut();
+  $("#progress").activity();
+  
   datafeed.fetchResource(datafeed.jsonResource(selected_node), function(d) {
+    $("#progress").activity(false);
+    $("#hypertree-container").fadeIn();
     //window.log(d);
     treeroot = makeDetailNodeTree(d.results);
     ht.loadJSON(treeroot);

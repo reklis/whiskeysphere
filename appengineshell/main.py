@@ -19,7 +19,7 @@ from google.appengine.ext.webapp import util
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        self.error(404);
+        self.redirect("/index.html");
 
 def main():
     application = webapp.WSGIApplication([('/', MainHandler)],
