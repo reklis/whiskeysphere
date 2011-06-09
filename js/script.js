@@ -60,7 +60,7 @@ function showGame(gameid) {
   $("#progress").activity();
   
   datafeed.game(gameid, function(d) {
-      //window.log(d);
+      window.log(d);
       treeroot = makeDetailNodeTree(d.results);
       //window.log(treeroot);
       
@@ -78,7 +78,7 @@ function showGame(gameid) {
           color: "#088"
       },
       onBeforeCompute: function(node){
-          window.log("centering");
+          //window.log("centering");
       },
       onCreateLabel: function(domElement, node){
           domElement.innerHTML = node.name;
@@ -107,7 +107,7 @@ function showGame(gameid) {
           style.left = (left - w / 2) + 'px';
       },
       onAfterCompute: function(){
-          window.log("done");
+          window.log(treeroot);
           
           //Build the right column relations list.
           //This is done by collecting the information (stored in the data property) 
@@ -123,6 +123,13 @@ function showGame(gameid) {
                   if (child.data.api_detail_url) {
                     var a = $("<a>", {
                         "href": "javascript:loadChildren(\""+child.data.api_detail_url+"\")",
+                        "html": child.name
+                        });
+                    a.appendTo(li);
+                  } else if (child.data.site_detail_url) {
+                    var a = $("<a>", {
+                        "href": child.data.site_detail_url,
+                        "target": "_new",
                         "html": child.name
                         });
                     a.appendTo(li);
@@ -183,8 +190,20 @@ function makeDetailNodeTree(detail_item, parent_node) {
       parent_node["children"].push(node);
     }
     return node;
+  } else if (detail_item.super_url) {
+    var node = {
+      "id": detail_item["super_url"],
+      "name": detail_item["super_url"].split('/').pop(),
+      "data": { site_detail_url: detail_item["super_url"] },
+      "children":[]
+    };
+    
+    if (undefined != parent_node) {
+      parent_node["children"].push(node);
+    }
+    
+    return node;
   } else {
-    //window.log("no detail_item.detail_url: " + detail_item);
     return null;
   }
 }
