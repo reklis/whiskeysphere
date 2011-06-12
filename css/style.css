@@ -186,8 +186,8 @@ body {
 }
 
 #txtSearchGame {
-  width: 50%;
-  font-size: 36pt;
+  width: 66%;
+  font-size: 18pt;
   text-align: center;
 }
 
@@ -205,32 +205,30 @@ body {
 #hypertree-container {
   background-color: black;
   display: none;
+  width: 100%;
+  text-align: center;
 }
 
 #hypertree {
-  width: 600px;
-  height: 600px;
+  width: 100%;
 }
 
 #hypertree-selected-node-details
 {
-  float: right;
+  clear: both;
+  margin: 1em;
   padding: 1em;
-  margin-top: -600px;
-  width: 300px;
   background-color: rgba(50, 50, 50, 0.5);
-  border: 1px solid black;
-  height: 600px;
-  overflow-x: visible;
-  overflow-y: auto;
+  border: 1px solid rgba(100,100,100,0.75);
+  font-size: 18pt;
+  box-shadow: 10px 10px 20px rgba(200,200,200,0.25);
+  width: 75%;
+  text-align: left;
 }
 
 footer {
-  position: absolute;
-  top: 90%;
   width: 100%;
   text-align: center;
-  z-index: 1;
 }
 
 /**
@@ -271,12 +269,18 @@ footer {
 
 @media only screen and (min-width: 480px) {
   /* Style adjustments for viewports 480px and over go here */
-
+  #txtSearchGame {
+  }
+  #hypertree-selected-node-details {
+  }
 }/*/mediaquery*/
 
 @media only screen and (min-width: 768px) {
   /* Style adjustments for viewports 768px and over go here */
-
+  #txtSearchGame {
+  }
+  #hypertree-selected-node-details {
+  }
 }/*/mediaquery*/
 
 

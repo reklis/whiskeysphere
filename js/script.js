@@ -40,7 +40,7 @@ function init() {
             
         $('.autocompletelist li').click(function() {
           var gameid = $(this).attr("data-gameid");
-          window.log(gameid);
+          //window.log(gameid);
           
           $("#searcharea").fadeOut();
           showGame(gameid);
@@ -48,7 +48,7 @@ function init() {
         
       });
     
-  })
+  });
   
 }
 
@@ -64,7 +64,7 @@ function showGame(gameid) {
       treeroot = makeDetailNodeTree(d.results);
       //window.log(treeroot);
       
-      var w = window.innerWidth * .6, h = window.innerHeight * .6;
+      var w = window.innerWidth-100, h = window.innerHeight-100;
       ht = new $jit.Hypertree({
         injectInto: 'hypertree',
          width: w,
@@ -77,10 +77,10 @@ function showGame(gameid) {
           lineWidth: 2,
           color: "#088"
       },
-      onBeforeCompute: function(node){
+      onBeforeCompute: function(node) {
           //window.log("centering");
       },
-      onCreateLabel: function(domElement, node){
+      onCreateLabel: function(domElement, node) {
           domElement.innerHTML = node.name;
           $(domElement).click(function () {
               ht.onClick(node.id);
@@ -91,56 +91,25 @@ function showGame(gameid) {
           style.display = '';
           style.cursor = 'pointer';
           if (node._depth <= 1) {
-              style.fontSize = "0.8em";
-              style.color = "#ddd";
-
-          } else if(node._depth == 2){
-              style.fontSize = "0.7em";
-              style.color = "#555";
-
+            style.fontSize = "1em";
+            style.color = "#ddd";
+            style.zIndex = 2;
+          } else if(node._depth == 2) {
+            style.fontSize = ".7em";
+            style.color = "#555";
+            style.zIndex = 1;
           } else {
-              style.display = 'none';
+            style.display = 'none';
           }
-
+          
           var left = parseInt(style.left);
           var w = domElement.offsetWidth;
           style.left = (left - w / 2) + 'px';
       },
-      onAfterCompute: function(){
-          window.log(treeroot);
-          
-          //Build the right column relations list.
-          //This is done by collecting the information (stored in the data property) 
-          //for all the nodes adjacent to the centered node.
-          var node = ht.graph.getClosestNodeToOrigin("current");
-          var div = $("<div>");
-          $("<h4>", {html: node.name}).appendTo(div);
-          var ul = $("<ul>");
-          node.eachAdjacency(function(adj){
-              var child = adj.nodeTo;
-              if (child.data) {
-                  var li = $("<li>");
-                  if (child.data.api_detail_url) {
-                    var a = $("<a>", {
-                        "href": "javascript:loadChildren(\""+child.data.api_detail_url+"\")",
-                        "html": child.name
-                        });
-                    a.appendTo(li);
-                  } else if (child.data.site_detail_url) {
-                    var a = $("<a>", {
-                        "href": child.data.site_detail_url,
-                        "target": "_new",
-                        "html": child.name
-                        });
-                    a.appendTo(li);
-                  } else {
-                    li.html(child.name);
-                  }
-                  li.appendTo(ul);
-              }
-          });
-          ul.appendTo(div);
-          $("#hypertree-selected-node-details").html(div);
+      onAfterCompute: function() {
+        var node = ht.graph.getClosestNodeToOrigin("current");
+        window.log(node);
+        showNodeDetails(node);
       }
     });
     
@@ -150,7 +119,7 @@ function showGame(gameid) {
     $("#hypertree-container").fadeIn();
     
     ht.refresh();
-    ht.controller.onAfterCompute();
+    showNodeDetails(treeroot);
   });
 }
 
@@ -158,7 +127,7 @@ function makeDetailNodeTree(detail_item, parent_node) {
   if (detail_item.api_detail_url) {
     var node = {
       "id": detail_item["api_detail_url"],
-      "name": detail_item["name"],
+      "name": detail_item["name"].replace(/_/g," "),
       "data": {},
       "children":[]
       };
@@ -168,7 +137,7 @@ function makeDetailNodeTree(detail_item, parent_node) {
         if (v.length != 0) {
           var nested_node = {
             "id": detail_item["api_detail_url"] + "-" + k,
-            "name": k,
+            "name": k.replace(/_/g," "),
             "data": {},
             "children":[]
           };
@@ -176,8 +145,6 @@ function makeDetailNodeTree(detail_item, parent_node) {
             makeDetailNodeTree(e, nested_node);
           });
           node["children"].push(nested_node);
-        } else {
-          // skip empty arrays
         }
       } else if ($.isPlainObject(v)) {
         makeDetailNodeTree(v, node);
@@ -208,7 +175,58 @@ function makeDetailNodeTree(detail_item, parent_node) {
   }
 }
 
-function loadChildren(selected_node) {
+function showNodeDetails(node) {
+  window.log("showNodeDetails")
+  window.log(node);
+  if (node.data.deck) {
+    // we have the deck, just display it
+    $("#hypertree-selected-node-details").html(node.data.deck);
+    $("#hypertree-selected-node-details").css('display','visible');
+  } else {
+    // lazy load the deck if we can
+    if (node.data.api_detail_url) {
+      $("#progress").activity();
+      datafeed.fetchResource(datafeed.jsonResource(node.data.api_detail_url), function(d) {
+        $("#progress").activity(false);
+        $("#hypertree-selected-node-details").html(d.results.deck);
+        $("#hypertree-selected-node-details").css('display','visible');
+      });
+    } else {
+      // show children of the node
+      var div = $("<div>");
+      $("<h4>", {html: node.name}).appendTo(div);
+      var ul = $("<ul>");
+      node.eachAdjacency(function(adj){
+          var child = adj.nodeTo;
+          if (child.data) {
+              var li = $("<li>");
+              if (child.data.api_detail_url) {
+                var a = $("<a>", {
+                    "href": "javascript:rerootTree(\""+child.data.api_detail_url+"\")",
+                    "html": child.name
+                    });
+                a.appendTo(li);
+              } else if (child.data.site_detail_url) {
+                var a = $("<a>", {
+                    "href": "javascript:loadImage(\""+child.data.site_detail_url+"\")",
+                    "html": child.name
+                    });
+                a.appendTo(li);
+              } else {
+                li.html(child.name);
+              }
+              li.appendTo(ul);
+          }
+      });
+      ul.appendTo(div);
+      $("#hypertree-selected-node-details").html(div);
+      $("#hypertree-selected-node-details").css('display','visible');
+    }
+  }
+}
+
+function rerootTree(selected_node) {
+  window.log("rerootTree: " + selected_node);
   $("#hypertree-container").fadeOut();
   $("#progress").activity();
   
@@ -219,7 +237,22 @@ function loadChildren(selected_node) {
     treeroot = makeDetailNodeTree(d.results);
     ht.loadJSON(treeroot);
     ht.refresh();
+    ht.controller.onAfterCompute();
   });
+}
+
+function loadImage(selected_node) {
+  window.log("loadImage: " + selected_node);
+  var img = $("<img>", {
+    'src': selected_node,
+    'class': 'lightbox'
+  });
+  $(img).appendTo(body);
+}
+
+function showLeafNode(node) {
+  window.log("showLeafNode");
+  window.log(node);
 }
 
 
